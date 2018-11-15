@@ -30,8 +30,7 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/api/**").authenticated();
+    protected void configure(HttpSecurity http) {
     }
 
     @Override

@@ -17,5 +17,7 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+        <sqlFile dbms="postgresql" encoding="utf8" path="../sql/spring-sec-oauth.sql"
+                 relativeToChangelogFile="true" stripComments="true" splitStatements="true"/>
     </changeSet>
 </databaseChangeLog>
