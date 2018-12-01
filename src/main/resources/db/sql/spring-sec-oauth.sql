@@ -72,5 +72,3 @@ create table ClientDetails (
 
 INSERT INTO oauth_client_details (client_id, resource_ids, client_secret, scope, authorized_grant_types, web_server_redirect_uri, authorities, access_token_validity, refresh_token_validity, additional_information, autoapprove)
 VALUES ('clientId', 'resourceId', '$2a$08$h8ovZd9IPQ2i7tNxb2z.nOx1.uoYWBj7S6e1erdpijAOQLvDUPb6O', 'read,write', 'password,authorization_code,refresh_token', '', '', 43200, 2592000, '{}', '');
-
-insert into "user"(id, username, password) values (1, 'test', '$2a$08$0Hq2MISs0deve5NYo9.WSOPR3JkmusXBJ27ScSeOY8EDBX8DNOhB2')

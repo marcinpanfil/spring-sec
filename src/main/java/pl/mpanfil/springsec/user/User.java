@@ -1,18 +1,24 @@
 package pl.mpanfil.springsec.user;
 
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.ArrayList;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
+@AllArgsConstructor
 public class User implements UserDetails {
 
     @Id
@@ -20,6 +26,15 @@ public class User implements UserDetails {
     private long id;
     private String username;
     private String password;
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles;
 
     void encodePassword(PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(password);
@@ -27,9 +42,8 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add((GrantedAuthority) () -> "read");
-        authorities.add((GrantedAuthority) () -> "write");
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        roles.forEach(r -> r.getAuthorities().forEach(a -> authorities.add((GrantedAuthority) a::getName)));
         return authorities;
     }
 
